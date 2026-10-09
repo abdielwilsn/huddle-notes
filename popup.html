@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Huddle Notes</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { width: 320px; padding: 14px; }
+  header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  header img { width: 20px; height: 20px; }
+  header b { font-size: 14px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px; }
+  #tabTitle { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #timer { font: 600 28px/1.1 var(--mono); letter-spacing: -.5px; margin: 6px 0 2px; }
+  #srcRow { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  #srcRow select { flex: 1; width: auto; }
+  #main { width: 100%; padding: 10px; margin-top: 10px; font-weight: 600; }
+  #notes > * { margin-top: 8px; }
+  footer { display: flex; gap: 14px; margin-top: 12px; font-size: 12.5px; }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--ink); }
+</style>
+</head>
+<body>
+<header><img src="icons/icon32.png" alt=""><b>Huddle Notes</b><span class="spacer"></span><span id="mode" class="chip" hidden></span></header>
+<div class="card">
+  <label id="srcRow" class="small muted">Record
+    <select id="source">
+      <option value="tab">This browser tab</option>
+      <option value="system">Computer audio (desktop apps)</option>
+      <option value="device">Audio input (BlackHole)</option>
+    </select>
+  </label>
+  <div class="small muted" id="label">This tab</div>
+  <div id="tabTitle">…</div>
+  <div id="timerWrap" hidden><div class="row"><span class="dot live"></span><span class="small muted">Recording</span></div><div id="timer">00:00</div><div id="liveBox" class="livebox" hidden></div></div>
+  <button id="main" class="primary" disabled>Start recording</button>
+</div>
+<div id="notes"></div>
+<footer>
+  <a href="#" id="openMeetings">Meetings</a>
+  <a href="#" id="openSettings">Settings</a>
+  <span class="spacer"></span>
+  <span class="muted">Alt+Shift+R</span>
+</footer>
+<script src="settings.js"></script>
+<script src="db.js"></script>
+<script src="livebox.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>

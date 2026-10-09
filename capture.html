@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Recording computer audio · Huddle Notes</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  main { padding: 18px; display: grid; gap: 12px; }
+  h1 { font-size: 16px; margin: 0; }
+  #timer { font: 600 26px/1.1 var(--mono); letter-spacing: -.5px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="row"><img src="icons/icon32.png" width="20" height="20" alt=""><h1 id="heading">Choose what to record</h1></div>
+  <div id="live" hidden><div class="row"><span class="dot live"></span><span class="small muted">Recording computer audio</span></div><div id="timer">00:00</div><div id="liveBox" class="livebox" hidden></div></div>
+  <div id="msg" class="note">In Chrome's picker, choose <b>Entire screen</b> and turn on <b>Share system audio</b>. Only the audio is kept.</div>
+  <div class="row"><button class="rec" id="stop" hidden>Stop &amp; transcribe</button><button id="retry" hidden>Try again</button></div>
+</main>
+<script src="settings.js"></script>
+<script src="db.js"></script>
+<script src="live.js"></script>
+<script src="recorder.js"></script>
+<script src="livebox.js"></script>
+<script src="capture.js"></script>
+</body>
+</html>

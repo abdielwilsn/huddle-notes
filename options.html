@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Settings · Huddle Notes</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  main { max-width: 620px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 22px; margin: 0; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 28px 0 10px; }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; display: grid; gap: 14px; }
+  label { display: grid; gap: 5px; font-weight: 500; }
+  label .muted { font-weight: 400; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .check { display: flex; gap: 10px; align-items: flex-start; font-weight: 500; }
+  .check input { width: auto; margin-top: 3px; }
+  .bar { position: sticky; bottom: 0; padding: 14px 0; background: var(--bg); display: flex; gap: 8px; align-items: center; margin-top: 18px; }
+  #status { font-size: 13px; }
+  @media (max-width: 560px) { .two { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="row"><img src="icons/icon48.png" width="36" height="36" alt=""><div><h1>Huddle Notes</h1><div class="muted small">Your meeting notes, recorded from your own browser.</div></div></div>
+
+  <h2>Transcription &amp; summary</h2>
+  <section>
+    <label>Provider
+      <select id="provider"></select>
+    </label>
+    <label>API key <span class="muted small" id="keyHelp"></span>
+      <input id="apiKey" type="password" autocomplete="off" placeholder="gsk_…">
+    </label>
+    <label>API base URL
+      <input id="baseUrl" type="url">
+    </label>
+    <div class="two">
+      <label>Speech-to-text model <input id="transcribeModel"></label>
+      <label>Summary model <input id="summaryModel"></label>
+    </div>
+    <div class="two">
+      <label>Language <span class="muted small">ISO code like en, fr — blank to auto-detect</span><input id="language" placeholder="auto"></label>
+      <label>Split audio every <span class="muted small">minutes (keeps each upload under the 25 MB limit)</span><input id="segmentMinutes" type="number" min="2" max="30"></label>
+    </div>
+    <label>Words to recognise <span class="muted small">names, product names, jargon — helps Whisper spell them right</span>
+      <textarea id="vocabulary" rows="2" placeholder="PixelPerByte, Skolnest, Krave, Laravel, Inertia"></textarea>
+    </label>
+  </section>
+
+  <h2>Recording</h2>
+  <section>
+    <label>Meeting audio comes from
+      <select id="source">
+        <option value="tab">The browser tab I'm in (Meet, Zoom web, Teams web)</option>
+        <option value="system">All computer audio (Zoom, Teams, Slack desktop apps)</option>
+        <option value="device">An audio input device (e.g. BlackHole)</option>
+      </select>
+      <span class="muted small" id="sourceHelp"></span>
+    </label>
+    <label id="othersRow">Meeting audio input
+      <select id="othersDeviceId"></select>
+      <span class="muted small">Send the meeting app's sound here: in Audio MIDI Setup make a Multi-Output Device with your headset + BlackHole, and pick it as the app's speaker. See the README.</span>
+    </label>
+    <label>Microphone
+      <select id="micDeviceId"></select>
+    </label>
+    <div class="note warn" id="devHelp" hidden>Click <b>Allow microphone</b> below to see your device names.</div>
+    <label class="check"><input type="checkbox" id="useMic"><span>Record my microphone<br><span class="muted small">Without it, only the meeting audio is captured.</span></span></label>
+    <label class="check"><input type="checkbox" id="separateSpeakers"><span>Label who spoke: me vs. others<br><span class="muted small">Records your mic and the meeting audio as separate tracks. Use headphones, or the meeting audio leaks into your mic and gets transcribed twice.</span></span></label>
+    <div class="two">
+      <label>Your label <input id="myName" placeholder="Me"></label>
+      <label>Everyone else <input id="othersName" placeholder="Others"></label>
+    </div>
+    <label class="check"><input type="checkbox" id="autoProcess"><span>Transcribe and summarise as soon as I stop</span></label>
+  </section>
+
+  <h2>Live transcript</h2>
+  <section>
+    <label>While recording, transcribe with Chrome
+      <select id="liveTranscript">
+        <option value="cloud">Chrome's speech service: hears your microphone only (works right away; audio goes to Google)</option>
+        <option value="local">On this computer: hears the whole meeting (private; one-time language download)</option>
+        <option value="off">Off</option>
+      </select>
+      <span class="muted small">Free and needs no API key. Text appears under the timer and on the Meetings page as people talk.</span>
+    </label>
+    <label>Final transcript
+      <select id="finalTranscript">
+        <option value="live">Chrome's transcript (no API key needed)</option>
+        <option value="whisper">Whisper through the API above (more accurate, needs a key)</option>
+      </select>
+    </label>
+    <div class="row"><button id="liveTest">Test Chrome transcription</button><span class="muted small" id="liveStatus"></span></div>
+    <div class="note" id="liveOut" hidden></div>
+  </section>
+
+  <div class="bar">
+    <button class="primary" id="save">Save</button>
+    <button id="test">Test connection</button>
+    <button id="mic">Allow microphone</button>
+    <span id="status" class="muted"></span>
+  </div>
+</main>
+<script src="settings.js"></script>
+<script src="live.js"></script>
+<script src="options.js"></script>
+</body>
+</html>
